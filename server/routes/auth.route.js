@@ -8,7 +8,7 @@ import {
   getMe,
 } from "../controllers/auth.controller.js";
 import validateForgotPassword from "../middleware/validateForgotPassword.js";
-import protectRoute from "../middleware/protectRoute.js";
+import { protectRoute } from "../middleware/protectRoute.js";
 
 const router = express.Router();
 

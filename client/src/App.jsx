@@ -19,15 +19,6 @@ const App = () => {
           credentials: "include",
         });
         const data = await res.json();
-        const token = document.cookie
-          .split("; ")
-          .find((row) => row.startsWith("jwt="));
-
-        console.log("token is here: ", token);
-
-        if (!token) {
-          return null;
-        }
 
         if (data.message) return null;
         if (!res.ok) {

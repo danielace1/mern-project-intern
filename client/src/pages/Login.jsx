@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -22,6 +22,8 @@ const Login = () => {
     formState: { errors },
     reset,
   } = useForm({ resolver: zodResolver(Schema) });
+
+  const navigate = useNavigate();
 
   const queryClient = useQueryClient();
   const {
@@ -57,6 +59,7 @@ const Login = () => {
   const handleLogin = (e) => {
     console.log(e);
     loginMutation(e);
+    navigate("/");
     reset();
   };
 

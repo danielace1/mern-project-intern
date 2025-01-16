@@ -7,13 +7,17 @@ import LoadingSpinner from "./components/LoadingSpinner";
 
 import { API_URL } from "./api/api";
 import Home from "./pages/Home";
+import Login from "./pages/Login";
 
 const App = () => {
   const { data: authUser, isLoading } = useQuery({
     queryKey: ["authUser"],
     queryFn: async () => {
       try {
-        const res = await fetch(`${API_URL}/api/auth/me`);
+        const res = await fetch(`${API_URL}/api/auth/me`, {
+          method: "GET",
+          credentials: "include",
+        });
         const data = await res.json();
         if (data.message) return null;
         if (!res.ok) {
@@ -44,11 +48,11 @@ const App = () => {
           path="/"
           element={authUser ? <Home /> : <Navigate to="/login" />}
         />
-        {/* <Route
+        <Route
           path="/login"
           element={!authUser ? <Login /> : <Navigate to="/" />}
         />
-        <Route
+        {/*} <Route
           path="/signup"
           element={!authUser ? <SignUp /> : <Navigate to="/" />}
         />

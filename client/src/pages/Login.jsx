@@ -11,7 +11,7 @@ import XSvg from "../components/X";
 import { API_URL } from "../api/api";
 
 const Schema = z.object({
-  email: z.string().min(3, { message: "Username is required." }),
+  email: z.string().email({ message: "Email is required." }),
   password: z.string().min(8, { message: "Password is required." }),
 });
 
@@ -105,9 +105,9 @@ const Login = () => {
 
           <div className="w-96">
             {isError && <small className="text-red-500">{error.message}</small>}
-            {errors.username ? (
+            {errors.email ? (
               <small className="text-red-500 text-sm">
-                {errors.username.message}
+                {errors.email.message}
               </small>
             ) : errors.password ? (
               <small className="text-red-500 text-sm">

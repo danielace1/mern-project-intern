@@ -61,6 +61,7 @@ const Login = () => {
 
   const handleLogin = (e) => {
     loginMutation(e);
+    reset();
   };
 
   return (

@@ -8,6 +8,7 @@ import LoadingSpinner from "./components/LoadingSpinner";
 import { API_URL } from "./api/api";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
+import SignUp from "./pages/Signup";
 
 const App = () => {
   const { data: authUser, isLoading } = useQuery({
@@ -57,11 +58,11 @@ const App = () => {
           path="/login"
           element={!authUser ? <Login /> : <Navigate to="/" />}
         />
-        {/*} <Route
+        <Route
           path="/signup"
           element={!authUser ? <SignUp /> : <Navigate to="/" />}
         />
-        <Route
+        {/* <Route
           path="/notifications"
           element={authUser ? <NotificationPage /> : <Navigate to="/login" />}
         />

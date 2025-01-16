@@ -4,6 +4,8 @@ import { Toaster } from "react-hot-toast";
 import { useQuery } from "@tanstack/react-query";
 
 import LoadingSpinner from "./components/LoadingSpinner";
+import Sidebar from "./components/Sidebar";
+import RightPanel from "./components/RightPanel";
 
 import { API_URL } from "./api/api";
 import Home from "./pages/Home";
@@ -11,6 +13,8 @@ import Login from "./pages/Login";
 import SignUp from "./pages/Signup";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
+import Profile from "./pages/Profile";
+import Notification from "./pages/Notification";
 
 const App = () => {
   const { data: authUser, isLoading } = useQuery({
@@ -50,7 +54,7 @@ const App = () => {
 
   return (
     <div className="flex max-w-6xl mx-auto">
-      {/* {authUser && <Sidebar />} */}
+      {authUser && <Sidebar />}
       <Routes>
         <Route
           path="/"
@@ -67,16 +71,17 @@ const App = () => {
           path="/signup"
           element={!authUser ? <SignUp /> : <Navigate to="/" />}
         />
-        {/* <Route
+        <Route
           path="/notifications"
-          element={authUser ? <NotificationPage /> : <Navigate to="/login" />}
+          element={authUser ? <Notification /> : <Navigate to="/login" />}
         />
+
         <Route
           path="/profile/:username"
-          element={authUser ? <ProfilePage /> : <Navigate to="/login" />}
-        /> */}
+          element={authUser ? <Profile /> : <Navigate to="/login" />}
+        />
       </Routes>
-      {/* {authUser && <RightPanel />} */}
+      {authUser && <RightPanel />}
       <Toaster />
     </div>
   );

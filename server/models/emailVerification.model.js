@@ -6,21 +6,14 @@ const emailVerification = Schema({
     ref: "User",
     required: true,
   },
-
   token: {
     type: String,
     required: true,
   },
-
   createdAt: {
     type: Date,
     default: Date.now,
-    expires: 43200,
-  },
-
-  expiresAt: {
-    type: Date,
-    default: Date.now,
+    expires: 3600,
   },
 });
 

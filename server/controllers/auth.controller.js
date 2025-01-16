@@ -1,5 +1,6 @@
 import bcrypt from "bcryptjs";
 import User from "../models/user.model.js";
+import emailVerification from "../models/emailVerification.model.js";
 import { generateTokenAndSetCookie } from "../lib/generateToken.js";
 import { sendEmail } from "../lib/sendEmail.js";
 
@@ -46,16 +47,16 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
     const isPasswordValid = await bcrypt.compare(
       password,
       user?.password || ""
     );
 
-    if (!user || !isPasswordValid) {
-      return res.status(400).json({ message: "Invalid username or password." });
+    if (!email || !isPasswordValid) {
+      return res.status(400).json({ message: "Invalid email or password." });
     }
 
     generateTokenAndSetCookie(user._id, res);
@@ -89,18 +90,69 @@ export const forgotPassword = async (req, res) => {
   try {
     const { email } = req.body;
 
-    const user = await User.findOne({ email: email });
+    const user = await User.findOne({ email });
     if (!user) {
       return res
         .status(400)
         .json({ message: "User with this email does not exist." });
     }
 
-    await sendEmail(user._id, email, user.username, res);
+    const emailSent = await sendEmail(user._id, email, user.username);
+    if (!emailSent) {
+      return res
+        .status(500)
+        .json({ message: "Error sending email. Please try again later." });
+    }
 
     res.status(200).json({ message: "Password reset link sent to email." });
   } catch (error) {
     console.log("Error in forgotPassword: ", error.message);
+    res.status(500).json({ message: error.message });
+  }
+};
+
+export const resetPassword = async (req, res) => {
+  try {
+    const { id, token } = req.params;
+    const { newPassword } = req.body;
+
+    const resetRecord = await emailVerification.findOne({ userId: id });
+    if (!resetRecord) {
+      return res
+        .status(400)
+        .json({ message: "Invalid or expired password reset link." });
+    }
+
+    const isValidToken = token === resetRecord.token;
+    if (!isValidToken) {
+      return res
+        .status(400)
+        .json({ message: "Invalid or expired password reset link." });
+    }
+
+    const currentTime = Date.now();
+    if (resetRecord.createdAt + 3600000 < currentTime) {
+      return res
+        .status(400)
+        .json({ message: "Password reset link has expired." });
+    }
+
+    const hashedPassword = await bcrypt.hash(newPassword, 12);
+
+    const user = await User.findByIdAndUpdate(
+      id,
+      { password: hashedPassword },
+      { new: true }
+    );
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+
+    await emailVerification.findByIdAndDelete(resetRecord._id);
+
+    res.status(200).json({ message: "Password updated successfully!" });
+  } catch (error) {
+    console.log("Error in resetting password:", error.message);
     res.status(500).json({ message: error.message });
   }
 };

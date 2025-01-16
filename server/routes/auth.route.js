@@ -4,13 +4,16 @@ import {
   login,
   logout,
   forgotPassword,
+  resetPassword,
 } from "../controllers/auth.controller.js";
+import validateForgotPassword from "../middleware/validateForgotPassword.js";
 
 const router = express.Router();
 
 router.post("/register", register);
 router.post("/login", login);
 router.post("/logout", logout);
-router.post("/forgotPassword", forgotPassword);
+router.post("/forgotPassword", validateForgotPassword, forgotPassword);
+router.post("/resetPassword/:id/:token", resetPassword);
 
 export default router;

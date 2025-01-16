@@ -39,6 +39,7 @@ const Login = () => {
           headers: {
             "Content-Type": "application/json",
           },
+          credentials: "include",
           body: JSON.stringify({ email, password }),
         });
 
@@ -46,6 +47,8 @@ const Login = () => {
 
         if (!res.ok) throw new Error(data.message || "Failed to login.");
         console.log(data);
+
+        navigate("/");
       } catch (error) {
         throw new Error(error.message);
       }
@@ -57,10 +60,7 @@ const Login = () => {
   });
 
   const handleLogin = (e) => {
-    console.log(e);
     loginMutation(e);
-    navigate("/");
-    reset();
   };
 
   return (

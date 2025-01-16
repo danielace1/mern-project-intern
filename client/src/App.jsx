@@ -16,6 +16,9 @@ const App = () => {
       try {
         const res = await fetch(`${API_URL}/api/auth/me`, {
           method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
           credentials: "include",
         });
         const data = await res.json();
@@ -24,6 +27,7 @@ const App = () => {
         if (!res.ok) {
           throw new Error(data.message || "Something went wrong");
         }
+
         console.log("authUser is here: ", data);
         return data;
       } catch (error) {

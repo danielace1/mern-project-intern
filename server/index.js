@@ -28,7 +28,13 @@ app.use("/api/users", userRoutes);
 app.use("/api/notification", notificationRoutes);
 
 app.get("/", (req, res) => {
-  res.send("Hello World");
+  res.json({
+    message: "API is running",
+    auth: "/api/auth",
+    posts: "/api/posts",
+    users: "/api/users",
+    notification: "/api/notification",
+  });
 });
 
 const startServer = async () => {

@@ -124,6 +124,7 @@ export const resetPassword = async (req, res) => {
     }
 
     const isValidToken = token === resetRecord.token;
+
     if (!isValidToken) {
       return res
         .status(400)

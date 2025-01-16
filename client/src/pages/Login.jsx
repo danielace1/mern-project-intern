@@ -12,7 +12,7 @@ import { API_URL } from "../api/api";
 
 const Schema = z.object({
   email: z.string().email({ message: "Email is required." }),
-  password: z.string().min(8, { message: "Password is required." }),
+  password: z.string().min({ message: "Password is required." }),
 });
 
 const Login = () => {
@@ -100,12 +100,14 @@ const Login = () => {
           <button className="btn rounded-full btn-primary text-white">
             {isPending ? "Loading..." : "Login"}
           </button>
-          <button
-            type="button"
-            className="text-gray-400 underline underline-offset-4 text-center text-sm"
-          >
-            {"Forgot"} password?
-          </button>
+          <Link to="/forgot-password" className="mx-auto">
+            <button
+              type="button"
+              className="text-gray-400 underline underline-offset-4 text-center text-sm"
+            >
+              {"Forgot"} password?
+            </button>
+          </Link>
 
           <div className="w-96">
             {isError && <small className="text-red-500">{error.message}</small>}

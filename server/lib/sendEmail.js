@@ -16,33 +16,35 @@ let transporter = nodemailer.createTransport({
 
 export const sendEmail = async (_id, email, username) => {
   const token = _id + uuidv4();
-  const link = `http://localhost:5000/api/auth/resetPassword/${_id}/${token}`;
+  const link = `http://localhost:5173/reset-password/${_id}/${token}`;
 
   const mailOptions = {
     from: AUTH_EMAIL,
     to: email,
     subject: "Password Reset",
-    html: `<!DOCTYPE html>
-      <html lang="en">
-      <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Email Verification</title>
-        <script src="https://cdn.tailwindcss.com"></script> <!-- Tailwind CDN -->
-      </head>
-      <body class="bg-gray-100 font-sans text-gray-900">
-        <div class="max-w-lg mx-auto bg-white p-8 rounded-lg shadow-md">
-          <h1 class="text-2xl font-bold text-center mb-4">Welcome ${username}</h1>
-          <p class="text-lg text-gray-700 mb-6">To complete your registration, please click the link below to verify your email address:</p>
-          <div class="flex justify-center mb-6">
-            <a href="${link}" class="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 transition duration-300">
-              Verify Email
-            </a>
-          </div>
-          <p class="text-sm text-center text-gray-600">If you didn't request this, please ignore this email.</p>
-        </div>
-      </body>
-      </html>
+    html: `<div style="background-color: #f3f4f6; font-family: Arial, sans-serif; color: #1f2937; margin: 0; padding: 20px;">
+  <div style="max-width: 600px; margin: 20px auto; background: white; padding: 20px; border-radius: 10px; box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);">
+    <h1 style="text-align: center; font-size: 24px; margin-bottom: 20px;">Welcome ${username}</h1>
+    <p style="font-size: 16px; line-height: 1.5; margin-bottom: 20px;">
+      To complete your registration, please click the link below to verify your email address:
+    </p>
+    <div style="text-align: center; margin-bottom: 20px;">
+      <a href="${link}" style="
+        background-color: #3b82f6;
+        color: white;
+        padding: 10px 20px;
+        border-radius: 8px;
+        text-decoration: none;
+        display: inline-block;
+      ">
+        Verify Email
+      </a>
+    </div>
+    <p style="font-size: 14px; color: #6b7280; text-align: center;">
+      If you didn't request this, please ignore this email.
+    </p>
+  </div>
+</div>
     `,
   };
 

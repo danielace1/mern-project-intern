@@ -9,6 +9,8 @@ import { API_URL } from "./api/api";
 import Home from "./pages/Home";
 import Login from "./pages/Login";
 import SignUp from "./pages/Signup";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 
 const App = () => {
   const { data: authUser, isLoading } = useQuery({
@@ -58,6 +60,9 @@ const App = () => {
           path="/login"
           element={!authUser ? <Login /> : <Navigate to="/" />}
         />
+        <Route path="/forgot-password" element={<ForgotPassword />} />
+        <Route path="/reset-password/:_id/:token" element={<ResetPassword />} />
+
         <Route
           path="/signup"
           element={!authUser ? <SignUp /> : <Navigate to="/" />}

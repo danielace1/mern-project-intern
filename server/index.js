@@ -3,6 +3,7 @@ import "dotenv/config";
 import cookieParser from "cookie-parser";
 import cors from "cors";
 import morgan from "morgan";
+import { v2 as cloudinary } from "cloudinary";
 import connectDB from "./lib/connectDB.js";
 import authRoutes from "./routes/auth.route.js";
 import postRoutes from "./routes/post.route.js";
@@ -11,6 +12,12 @@ import notificationRoutes from "./routes/notification.route.js";
 
 const PORT = process.env.PORT || 5000;
 const app = express();
+
+cloudinary.config({
+  cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
+  api_key: process.env.CLOUDINARY_API_KEY,
+  api_secret: process.env.CLOUDINARY_API_SECRET,
+});
 
 app.use(
   cors({

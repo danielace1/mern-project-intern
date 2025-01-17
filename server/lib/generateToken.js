@@ -8,7 +8,8 @@ export const generateTokenAndSetCookie = (userId, res) => {
   res.cookie("jwt", token, {
     maxAge: 15 * 24 * 60 * 60 * 1000, // 15 days
     httpOnly: true,
-    secure: process.env.NODE_ENV === "production",
+    // secure: process.env.NODE_ENV === "production",
+    secure: true,
     sameSite: "none",
     domain: ".vercel.app",
   });

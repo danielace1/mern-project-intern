@@ -16,7 +16,8 @@ let transporter = nodemailer.createTransport({
 
 export const sendEmail = async (_id, email, username) => {
   const token = _id + uuidv4();
-  const link = `http://localhost:5173/reset-password/${_id}/${token}`;
+  // const link = `http://localhost:5173/reset-password/${_id}/${token}`;
+  const link = `https://mern-project-intern-client.vercel.app/reset-password/${_id}/${token}`;
 
   const mailOptions = {
     from: AUTH_EMAIL,

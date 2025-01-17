@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -43,6 +43,7 @@ const SignUp = () => {
   } = useForm({ resolver: zodResolver(Schema) });
 
   const queryClient = useQueryClient();
+  const navigate = useNavigate();
 
   const { mutate, isError, isPending, error } = useMutation({
     mutationFn: async ({ email, username, fullName, password }) => {
@@ -69,6 +70,7 @@ const SignUp = () => {
     onSuccess: () => {
       toast.success("Account created successfully");
       queryClient.invalidateQueries({ queryKey: ["authUser"] });
+      navigate("/login");
     },
   });
 

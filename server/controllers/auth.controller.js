@@ -81,7 +81,7 @@ export const logout = async (req, res) => {
     res.cookie("jwt", "", {
       maxAge: 0, // Clear the cookie
       httpOnly: true,
-      secure: process.env.NODE_ENV === "production",
+      // secure: process.env.NODE_ENV === "production",
       secure: true,
       sameSite: "none",
       domain: ".vercel.app",

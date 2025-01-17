@@ -79,10 +79,12 @@ export const login = async (req, res) => {
 export const logout = async (req, res) => {
   try {
     res.cookie("jwt", "", {
-      maxAge: 0, // Clear the cookie
+      maxAge: 0,
       httpOnly: true,
-      // secure: process.env.NODE_ENV === "production",
+      // secure: process.env.NODE_ENV !== "development",
       secure: true,
+      // secure: process.env.NODE_ENV === "production",
+      // sameSite: "strict",
       sameSite: "none",
       domain: ".vercel.app",
     });

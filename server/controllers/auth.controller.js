@@ -78,7 +78,13 @@ export const login = async (req, res) => {
 
 export const logout = async (req, res) => {
   try {
-    res.cookie("jwt", "", { maxAge: 0 });
+    res.cookie("jwt", "", {
+      maxAge: 0, // Clear the cookie
+      httpOnly: true,
+      secure: process.env.NODE_ENV === "production",
+      sameSite: "none",
+      domain: ".vercel.app",
+    });
     res.status(200).json({ message: "Logged out successfully." });
   } catch (error) {
     console.log("Error in logging out user: ", error.message);

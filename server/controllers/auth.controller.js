@@ -47,16 +47,16 @@ export const register = async (req, res) => {
 
 export const login = async (req, res) => {
   try {
-    const { email, password } = req.body;
+    const { username, password } = req.body;
 
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ username });
     const isPasswordValid = await bcrypt.compare(
       password,
       user?.password || ""
     );
 
-    if (!email || !isPasswordValid) {
-      return res.status(400).json({ message: "Invalid email or password." });
+    if (!username || !isPasswordValid) {
+      return res.status(400).json({ message: "Invalid username or password." });
     }
 
     generateTokenAndSetCookie(user._id, res);

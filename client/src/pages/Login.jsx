@@ -4,14 +4,14 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 
-import { MdOutlineMail } from "react-icons/md";
+import { FaRegUser } from "react-icons/fa";
 import { MdPassword } from "react-icons/md";
 
 import XSvg from "../components/X";
 import { API_URL } from "../api/api";
 
 const Schema = z.object({
-  email: z.string().email({ message: "Email is required." }),
+  username: z.string().min(3, { message: "Username is required." }),
   password: z.string().min({ message: "Password is required." }),
 });
 
@@ -32,7 +32,7 @@ const Login = () => {
     isPending,
     error,
   } = useMutation({
-    mutationFn: async ({ email, password }) => {
+    mutationFn: async ({ username, password }) => {
       try {
         const res = await fetch(`${API_URL}/api/auth/login`, {
           method: "POST",
@@ -40,7 +40,7 @@ const Login = () => {
             "Content-Type": "application/json",
           },
           credentials: "include",
-          body: JSON.stringify({ email, password }),
+          body: JSON.stringify({ username, password }),
         });
 
         const data = await res.json();
@@ -77,13 +77,13 @@ const Login = () => {
           <XSvg className="w-24 lg:hidden fill-white" />
           <h1 className="text-4xl font-extrabold text-white">{"Let's"} go.</h1>
           <label className="input input-bordered rounded flex items-center gap-2">
-            <MdOutlineMail />
+            <FaRegUser />
             <input
-              type="email"
+              type="text"
               className="grow"
-              placeholder="email"
-              name="email"
-              {...register("email")}
+              placeholder="username"
+              name="username"
+              {...register("username")}
             />
           </label>
 
@@ -111,9 +111,9 @@ const Login = () => {
 
           <div className="w-96">
             {isError && <small className="text-red-500">{error.message}</small>}
-            {errors.email ? (
+            {errors.username ? (
               <small className="text-red-500 text-sm">
-                {errors.email.message}
+                {errors.username.message}
               </small>
             ) : errors.password ? (
               <small className="text-red-500 text-sm">

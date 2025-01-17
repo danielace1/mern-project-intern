@@ -179,7 +179,7 @@ const Post = ({ post }) => {
       <div className="flex gap-2 items-start p-4 border-b border-gray-700">
         <div className="avatar">
           <Link
-            to={`/profile/${postOwner.username}`}
+            to={`/profile/${postOwner?.username}`}
             className="w-8 rounded-full overflow-hidden"
           >
             <img src={postOwner.profileImg || "/avatar-placeholder.png"} />
@@ -187,12 +187,12 @@ const Post = ({ post }) => {
         </div>
         <div className="flex flex-col flex-1">
           <div className="flex gap-2 items-center">
-            <Link to={`/profile/${postOwner.username}`} className="font-bold">
+            <Link to={`/profile/${postOwner?.username}`} className="font-bold">
               {postOwner.fullName}
             </Link>
             <span className="text-gray-700 flex gap-1 text-sm">
-              <Link to={`/profile/${postOwner.username}`}>
-                @{postOwner.username}
+              <Link to={`/profile/${postOwner?.username}`}>
+                @{postOwner?.username}
               </Link>
               <span>·</span>
               <span>{formattedDate}</span>
@@ -274,13 +274,13 @@ const Post = ({ post }) => {
                           <div className="flex flex-col">
                             <div className="flex items-center gap-1">
                               <span className="font-bold">
-                                {comment.user.fullName}
+                                {comment?.user.fullName}
                               </span>
                               <span className="text-gray-700 text-sm">
-                                @{comment.user.username}
+                                @{comment?.user.username}
                               </span>
                             </div>
-                            <div className="text-sm">{comment.text}</div>
+                            <div className="text-sm">{comment?.text}</div>
                           </div>
                         </div>
                         {authUser._id === comment.user._id && (
